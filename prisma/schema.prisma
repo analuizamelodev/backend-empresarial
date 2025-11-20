@@ -1,0 +1,54 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Empresa {
+  id        String    @id @default(uuid())
+  nome      String
+  usuarios  Usuario[]
+  produtos  Produto[]
+  createdAt DateTime  @default(now())
+}
+
+model Usuario {
+  id        String  @id @default(uuid())
+  nome      String
+  email     String  @unique
+  senha     String
+  empresaId String
+  empresa   Empresa @relation(fields: [empresaId], references: [id])
+}
+
+model Produto {
+  id          String    @id @default(uuid())
+  nome        String
+  categoria   String?
+  precoCompra Float
+  precoVenda  Float
+  validade    DateTime?
+  empresaId   String
+  empresa     Empresa   @relation(fields: [empresaId], references: [id])
+  estoque     Estoque?
+}
+
+model Estoque {
+  id         String                @id @default(uuid())
+  quantidade Int                   @default(0)
+  produtoId  String                @unique
+  produto    Produto               @relation(fields: [produtoId], references: [id])
+  movimentos MovimentacaoEstoque[]
+}
+
+model MovimentacaoEstoque {
+  id         String   @id @default(uuid())
+  tipo       String // COMPRA | VENDA | AJUSTE
+  quantidade Int
+  data       DateTime @default(now())
+  produtoId  String
+  estoqueId  String
+  estoque    Estoque  @relation(fields: [estoqueId], references: [id])
+}
