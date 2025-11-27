@@ -1,16 +1,22 @@
 import express from "express";
 
-import { PrismaClient } from "@prisma/client";
-
 import "dotenv/config";
 
-import { router } from "./controllers/services/routes";
+import { router } from "./routes";
 
-const prisma = new PrismaClient();
+import { swaggerUi, swaggerSpec } from "./swagger";
 
-import { setupSwagger } from "./swagger";
+import { PrismaClient } from "@prisma/client";
+
+import { PrismaPg } from "@prisma/adapter-pg";
+
+const pool = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
+
+const prisma = new PrismaClient({ adapter: pool });
 
 const server = express();
+
+server.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 server.use(express.json());
 

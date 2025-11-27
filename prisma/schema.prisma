@@ -1,54 +1,43 @@
 generator client {
-  provider = "prisma-client-js"
+  provider   = "prisma-client"
+  output     = "./generated"
 }
 
 datasource db {
   provider = "postgresql"
 }
 
-model Empresa {
-  id        String    @id @default(uuid())
-  nome      String
-  usuarios  Usuario[]
-  produtos  Produto[]
-  createdAt DateTime  @default(now())
-}
-
-model Usuario {
+model User {
   id        String  @id @default(uuid())
-  nome      String
+  name      String
   email     String  @unique
-  senha     String
-  empresaId String
-  empresa   Empresa @relation(fields: [empresaId], references: [id])
+  password  String
 }
 
-model Produto {
+model Product {
   id          String    @id @default(uuid())
-  nome        String
-  categoria   String?
-  precoCompra Float
-  precoVenda  Float
-  validade    DateTime?
-  empresaId   String
-  empresa     Empresa   @relation(fields: [empresaId], references: [id])
-  estoque     Estoque?
+  name        String
+  category    String
+  pricePurchase Float
+  priceSale  Float
+  validity    DateTime?
+  stock     Stock?
 }
 
-model Estoque {
+model Stock {
   id         String                @id @default(uuid())
-  quantidade Int                   @default(0)
-  produtoId  String                @unique
-  produto    Produto               @relation(fields: [produtoId], references: [id])
-  movimentos MovimentacaoEstoque[]
+  quantity   Int                   @default(0)
+  productId  String                @unique
+  product    Product               @relation(fields: [productId], references: [id])
+  movements  StockMovement[]
 }
 
-model MovimentacaoEstoque {
+model StockMovement {
   id         String   @id @default(uuid())
-  tipo       String // COMPRA | VENDA | AJUSTE
-  quantidade Int
-  data       DateTime @default(now())
-  produtoId  String
-  estoqueId  String
-  estoque    Estoque  @relation(fields: [estoqueId], references: [id])
+  type       String // COMPRA | VENDA | AJUSTE
+  quantity   Int
+  date       DateTime @default(now())
+  productId  String
+  stockId  String
+  stock    Stock  @relation(fields: [stockId], references: [id])
 }
