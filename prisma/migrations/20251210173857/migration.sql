@@ -3,7 +3,7 @@ CREATE TYPE "TransactionType" AS ENUM ('purchase', 'sale');
 
 -- CreateTable
 CREATE TABLE "User" (
-    "id" TEXT NOT NULL,
+    "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
@@ -13,7 +13,7 @@ CREATE TABLE "User" (
 
 -- CreateTable
 CREATE TABLE "Product" (
-    "id" TEXT NOT NULL,
+    "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "category" TEXT NOT NULL,
     "pricePurchase" DOUBLE PRECISION NOT NULL,
@@ -25,7 +25,7 @@ CREATE TABLE "Product" (
 
 -- CreateTable
 CREATE TABLE "Transaction" (
-    "id" TEXT NOT NULL,
+    "id" SERIAL NOT NULL,
     "type" "TransactionType" NOT NULL,
     "date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
@@ -34,9 +34,9 @@ CREATE TABLE "Transaction" (
 
 -- CreateTable
 CREATE TABLE "ProductsOnTransactions" (
-    "id" TEXT NOT NULL,
-    "productId" TEXT NOT NULL,
-    "transactionId" TEXT NOT NULL,
+    "id" SERIAL NOT NULL,
+    "productId" INTEGER NOT NULL,
+    "transactionId" INTEGER NOT NULL,
     "quantity" INTEGER NOT NULL,
     "unitPrice" DOUBLE PRECISION NOT NULL,
     "totalPrice" DOUBLE PRECISION NOT NULL,
