@@ -118,7 +118,7 @@ router.post("/auth/login", logInToUserController);
  *       201:
  *         description: Product created successfully
  */
-router.post("/products", registerProductController);
+router.post("/products", authMiddleware, registerProductController);
 
 /**
  * @swagger
@@ -178,7 +178,7 @@ router.get("/products/:id", getProductByIdController);
  *       404:
  *         description: Product not found
  */
-router.put("/products/:id", updateByIdProductController);
+router.put("/products/:id", authMiddleware, updateByIdProductController);
 
 /**
  * @swagger
@@ -199,7 +199,7 @@ router.put("/products/:id", updateByIdProductController);
  *       404:
  *         description: Product not found
  */
-router.delete("/products/:id", deleteProductController);
+router.delete("/products/:id", authMiddleware, deleteProductController);
 
 /**
  * @swagger
@@ -242,7 +242,7 @@ router.delete("/products/:id", deleteProductController);
  *       201:
  *         description: Transaction created successfully
  */
-router.post("/transactions", createTransactionController);
+router.post("/transactions", authMiddleware, createTransactionController);
 
 /**
  * @swagger
@@ -254,7 +254,7 @@ router.post("/transactions", createTransactionController);
  *       200:
  *         description: Transactions retrieved successfully
  */
-router.get("/transactions", getAllTransactionsController);
+router.get("/transactions", authMiddleware, getAllTransactionsController);
 
 /**
  * @swagger
@@ -275,7 +275,7 @@ router.get("/transactions", getAllTransactionsController);
  *       404:
  *         description: Transaction not found
  */
-router.get("/transactions/:id", getTransactionByIdController);
+router.get("/transactions/:id", authMiddleware, getTransactionByIdController);
 
 /**
  * @swagger
@@ -294,4 +294,8 @@ router.get("/transactions/:id", getTransactionByIdController);
  *       204:
  *         description: Transaction deleted successfully
  */
-router.delete("/transactions/:id", deleteTransactionByIdController);
+router.delete(
+  "/transactions/:id",
+  authMiddleware,
+  deleteTransactionByIdController
+);
