@@ -144,16 +144,13 @@ After login, use the token as:
 
 ## Transaction rules
 
-<ul>
-<il>Prices are defined by the backend</il>
+Prices are defined by the backend
 
-<il>Sales only occur if there is sufficient stock</il>
+Sales only occur if there is sufficient stock
 
-<il>Stock is updated automatically</il>
+Stock is updated automatically
 
-<il>If any rule fails, the entire transaction is rolled back</il>
-
-</ul>
+If any rule fails, the entire transaction is rolled back
 
 ## Author
 
