@@ -1,4 +1,4 @@
-# Backend Business
+# Commerce Backend Demo
 
 This repository contains a business management API responsible for handling products, inventory control, and purchase and sale transactions.
 
@@ -145,7 +145,7 @@ After login, use the token as:
 ## Transaction rules
 
 <ul>
- <il>Prices are defined by the backend</il>
+<il>Prices are defined by the backend</il>
 
 <il>Sales only occur if there is sufficient stock</il>
 
