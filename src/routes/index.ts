@@ -12,7 +12,6 @@ import { deleteProductController } from "../controllers/product/delete-product-b
 import { createTransactionController } from "../controllers/transaction/create-transaction";
 import { getAllTransactionsController } from "../controllers/transaction/get-all-transactions";
 import { getTransactionByIdController } from "../controllers/transaction/get-transaction-by-id";
-import { deleteTransactionByIdController } from "../controllers/transaction/delete-transaction-by-id";
 import { updateTransactionByIdController } from "../controllers/transaction/update-transaction-by-id";
 
 import { authMiddleware } from "../middlewares/auth-middleware";
@@ -214,33 +213,72 @@ router.delete("/products/:id", authMiddleware, deleteProductController);
  *   post:
  *     summary: Create a transaction (purchase or sale)
  *     tags: [Transaction]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - type
+ *               - products
  *             properties:
  *               type:
  *                 type: string
  *                 enum: [purchase, sale]
+ *                 example: sale
  *               products:
  *                 type: array
+ *                 minItems: 1
  *                 items:
  *                   type: object
+ *                   required:
+ *                     - productId
+ *                     - quantity
  *                   properties:
  *                     productId:
  *                       type: integer
- *                       example: 1
+ *                       example: 3
  *                     quantity:
  *                       type: integer
  *                       example: 2
- *                     unitPrice:
- *                       type: number
- *                       example: 150
  *     responses:
  *       201:
  *         description: Transaction created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 transactionId:
+ *                   type: integer
+ *                   example: 12
+ *                 type:
+ *                   type: string
+ *                   enum: [purchase, sale]
+ *                 items:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       productId:
+ *                         type: integer
+ *                         example: 3
+ *                       quantity:
+ *                         type: integer
+ *                         example: 2
+ *                       unitPrice:
+ *                         type: number
+ *                         example: 3200
+ *                       totalPrice:
+ *                         type: number
+ *                         example: 6400
+ *       400:
+ *         description: Validation error or insufficient stock
+ *       401:
+ *         description: Unauthorized
  */
 router.post("/transactions", authMiddleware, createTransactionController);
 
@@ -276,26 +314,3 @@ router.get("/transactions", authMiddleware, getAllTransactionsController);
  *         description: Transaction not found
  */
 router.get("/transactions/:id", authMiddleware, getTransactionByIdController);
-
-/**
- * @swagger
- * /transactions/{id}:
- *   delete:
- *     summary: Delete a transaction
- *     tags: [Transaction]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: integer
- *           example: 1
- *     responses:
- *       204:
- *         description: Transaction deleted successfully
- */
-router.delete(
-  "/transactions/:id",
-  authMiddleware,
-  deleteTransactionByIdController
-);

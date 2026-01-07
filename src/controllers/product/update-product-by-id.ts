@@ -13,6 +13,7 @@ export const updateByIdProductController = async (
       category,
       pricePurchase,
       priceSale,
+      quantity: req.body.quantity,
     });
 
     return res.status(200).json({ message: "Product successfully updated" });

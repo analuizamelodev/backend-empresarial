@@ -4,15 +4,16 @@ export const registerProductService = async (
   name: string,
   category: string,
   pricePurchase: number,
-  priceSale: number
-) => {
+  priceSale: number,
+  quantity: number
+): Promise<void> => {
   await prisma.product.create({
     data: {
       name,
       category,
       pricePurchase,
       priceSale,
-      quantity: 0,
+      quantity,
     },
   });
 };

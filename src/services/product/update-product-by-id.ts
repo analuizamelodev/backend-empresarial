@@ -7,6 +7,7 @@ export const updateByIdProductService = async (
     category?: string;
     pricePurchase?: number;
     priceSale?: number;
+    quantity?: number;
   }
 ) => {
   return await prisma.product.update({

@@ -8,13 +8,12 @@ export const createTransactionController = async (
   try {
     const { type, products } = req.body;
 
-    const { transaction, items } = await createTransactionService(
-      type,
-      products
-    );
+    const result = await createTransactionService(type, products);
 
-    return res.status(201).json({ transaction, items });
-  } catch (error) {
-    return res.status(500).json({ error: "Internal server error" });
+    return res.status(201).json(result);
+  } catch (error: any) {
+    return res.status(400).json({
+      error: error.message ?? "Internal server error",
+    });
   }
 };
