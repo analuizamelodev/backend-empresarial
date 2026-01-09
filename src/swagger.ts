@@ -5,7 +5,7 @@ const options = {
   definition: {
     openapi: "3.0.0",
     info: {
-      title: "backend-empresarial",
+      title: "Commerce Backend Demo",
       version: "1.0.0",
     },
     components: {
